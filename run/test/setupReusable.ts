@@ -1,3 +1,4 @@
+// tslint:disable-next-line
 import 'mocha';
 import * as assert from 'assert';
 import * as sinon from 'sinon';
@@ -30,7 +31,7 @@ describe('setupReusable', function() {
     function driver() {
       return xs.of('b');
     }
-    let {sources, run} = setupReusable({other: driver});
+    const {sources, run} = setupReusable({other: driver});
     assert.strictEqual(typeof sources, 'object');
     assert.notStrictEqual(typeof sources.other, 'undefined');
     assert.notStrictEqual(sources.other, null);
@@ -39,7 +40,7 @@ describe('setupReusable', function() {
   });
 
   it('should return an engine, which we can run and dispose', function() {
-    let sandbox = sinon.sandbox.create();
+    const sandbox = sinon.sandbox.create();
     const spy = sandbox.spy();
 
     type NiceSources = {
@@ -59,16 +60,16 @@ describe('setupReusable', function() {
       return xs.of('b').debug(spy);
     }
 
-    const engine = setupReusable<NiceSources, NiceSinks>({other: driver});
+    const engine = setupReusable({other: driver});
     const sinks = app(engine.sources);
-    let dispose = engine.run(sinks);
+    const dispose = engine.run(sinks);
     assert.strictEqual(typeof dispose, 'function');
     sinon.assert.calledOnce(spy);
     dispose();
   });
 
   it('should allow reusing drivers for many apps', function(done) {
-    let sandbox = sinon.sandbox.create();
+    const sandbox = sinon.sandbox.create();
     const spy1 = sandbox.spy();
     const spy2 = sandbox.spy();
 
@@ -104,7 +105,7 @@ describe('setupReusable', function() {
       return xs.of('b');
     }
 
-    const engine = setupReusable<NiceSources, NiceSinks>({other: driver});
+    const engine = setupReusable({other: driver});
 
     const dispose1 = engine.run(app1(engine.sources));
     sinon.assert.calledOnce(spy1);
@@ -121,7 +122,7 @@ describe('setupReusable', function() {
   });
 
   it('should allow disposing the engine, stopping reusability', function(done) {
-    let sandbox = sinon.sandbox.create();
+    const sandbox = sinon.sandbox.create();
     const spy = sandbox.spy();
 
     type NiceSources = {
@@ -147,7 +148,7 @@ describe('setupReusable', function() {
       return xs.of('b');
     }
 
-    const engine = setupReusable<NiceSources, NiceSinks>({other: driver});
+    const engine = setupReusable({other: driver});
 
     engine.run(app(engine.sources));
     sinon.assert.calledOnce(spy);
