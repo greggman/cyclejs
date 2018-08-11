@@ -12,7 +12,7 @@ install:
   - pnpm recursive install --filter '@cycle/*'
 cache:
   directories:
-    - /home/travis/.pnpn-store
+    - /home/travis/.pnpm-store
 branches:
   only:
     - master
